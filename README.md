@@ -194,7 +194,6 @@ Apply mTLS configuration to Transform Service in `docker-compose.yml` mounting k
   transform-core-aio:
     image: alfresco/alfresco-transform-core-aio:3.1.0
     environment:
-      JAVA_OPTS: >-
       SERVER_SSL_ENABLED: "true"
       SERVER_SSL_KEY_PASSWORD: "kT9X6oe68t"
       SERVER_SSL_KEY_STORE: "file:/transform-core-aio.keystore"
