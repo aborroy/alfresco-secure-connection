@@ -35,7 +35,9 @@ $ cd alfresco-ssl-generator/ssl-tool
 Run the following command to create a new CA certificate with RSA 2048 bits (minimum recommended) and 2 years (730 days) of validity.
 
 ```
-$ ./run_ca.sh -keysize 2048 -keystorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Custom Alfresco CA" -servername localhost -validityduration 730
+$ ./run_ca.sh -keysize 2048 -keystorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Custom Alfresco CA" \
+-servername localhost -validityduration 730
 ```
 
 Copy CA public certificate `ca.cert.pem` to Docker Compose `keystore` folder.
@@ -53,7 +55,10 @@ Create a certificate for `postgres` service using the CA generated, with RSA 204
 >> Despite Postgres is not accepting keystore configuration, just only certificates, `PKCS12` keystore is generated using Alfresco SSL Generator. This tool doesn't support the generation of certificates without packaging them on a keystore.
 
 ```
-$ ./run_additional.sh -servicename postgres -rootcapass kT9X6oe68t -keysize 2048 -keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Postgres" -servername postgres -alfrescoformat current
+$ ./run_additional.sh -servicename postgres -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Postgres" \
+-servername postgres -alfrescoformat current
 ```
 
 Copy public certificate `postgres.cer` and private certificate `postgres.key` to Docker Compose `keystore` folder. Note that `kT9X6oe68t` is the password selected to protect the private key.
@@ -71,7 +76,10 @@ $ chmod 0600 ../../docker/keystore/postgres/*
 Create a certificate for `alfresco` service using the CA generated, with RSA 2048 bits and keystore type `PKCS12`.
 
 ```
-$ ./run_additional.sh -servicename alfresco -rootcapass kT9X6oe68t -keysize 2048 -keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Alfresco" -servername alfresco -alfrescoformat current
+$ ./run_additional.sh -servicename alfresco -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Alfresco" \
+-servername alfresco -alfrescoformat current
 ```
 
 Copy public certificate `alfresco.cer` and private certificate `alfresco.key` to Docker Compose `keystore` folder, as `postgres` JDBC client is only supporting TLS configuration using certificates instead of keystores.
@@ -87,7 +95,8 @@ $ chmod 0600 ../../docker/keystore/alfresco/*
 Since `postgres` JDBC client is accepting only a PKCS8 certificate, convert the private key to this format. Encryption password is `kT9X6oe68t`, as specified in the previous command.
 
 ```
-$ openssl pkcs8 -topk8 -inform PEM -in ../../docker/keystore/alfresco/alfresco.key -outform DER -out ../../docker/keystore/alfresco/alfresco.pk8 -v1 PBE-MD5-DES
+$ openssl pkcs8 -topk8 -inform PEM -in ../../docker/keystore/alfresco/alfresco.key -outform DER \
+-out ../../docker/keystore/alfresco/alfresco.pk8 -v1 PBE-MD5-DES
 ```
 
 ## Secure connection between Alfresco Repository and Postgres
@@ -159,7 +168,10 @@ From this point, communication between Alfresco Repository and Database is happe
 Create a certificate for `transform-core-aio` service using the CA generated, with RSA 2048 bits and keystore type `PKCS12`.
 
 ```
-$ ./run_additional.sh -servicename transform-core-aio -rootcapass kT9X6oe68t -keysize 2048 -keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Transform Core AIO" -servername transform-core-aio -alfrescoformat current
+$ ./run_additional.sh -servicename transform-core-aio -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Transform Core AIO" \
+-servername transform-core-aio -alfrescoformat current
 ```
 
 Copy `transform-core-aio` generated keystore and truststore to Docker Compose `keystore` folder.
@@ -233,7 +245,10 @@ From this point, communication between Alfresco Repository and Transform is happ
 Create a certificate for `solr6` service using the CA generated, with RSA 2048 bits and keystore type `PKCS12`.
 
 ```
-$ ./run_additional.sh -servicename solr6 -rootcapass kT9X6oe68t -keysize 2048 -keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Search Service" -servername solr6 -alfrescoformat current
+$ ./run_additional.sh -servicename solr6 -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Search Service" \
+-servername solr6 -alfrescoformat current
 ```
 
 Copy `solr6` generated keystore and truststore to Docker Compose `keystore` folder.
@@ -386,7 +401,10 @@ From this point, communication between Alfresco Repository and Search Services i
 Create a certificate for `activemq` service using the CA generated, with RSA 2048 bits and keystore type `JKS`. In this case `PKCS12` keystore type is not an option, since it's not supported by ActiveMQ TLS configuration.
 
 ```
-$ ./run_additional.sh -servicename activemq -rootcapass kT9X6oe68t -keysize 2048 -keystoretype JKS -keystorepass kT9X6oe68t -truststoretype JKS -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=ActiveMQ" -servername activemq -alfrescoformat current
+$ ./run_additional.sh -servicename activemq -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype JKS -keystorepass kT9X6oe68t -truststoretype JKS -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=ActiveMQ" \
+-servername activemq -alfrescoformat current
 ```
 
 Copy `activemq` generated keystore and truststore to Docker Compose `keystore` folder.
@@ -467,7 +485,10 @@ From this point, communication between Alfresco Repository and ActiveMQ is happe
 Create a certificate for `proxy` service using the CA generated, with RSA 2048 bits and keystore type `PKCS12`.
 
 ```
-$ ./run_additional.sh -servicename localhost -rootcapass kT9X6oe68t -keysize 2048 -keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t -certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Web Proxy" -servername localhost -alfrescoformat current
+$ ./run_additional.sh -servicename localhost -rootcapass kT9X6oe68t -keysize 2048 \
+-keystoretype PKCS12 -keystorepass kT9X6oe68t -truststoretype PKCS12 -truststorepass kT9X6oe68t \
+-certdname "/C=GB/ST=UK/L=Maidenhead/O=Alfresco Software Ltd./OU=Unknown/CN=Web Proxy" \
+-servername localhost -alfrescoformat current
 ```
 
 Copy public certificate `localhost.cer` and private certificate `localhost.key` to Docker Compose `keystore` folder.
