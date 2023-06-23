@@ -531,6 +531,15 @@ http {
     }
 }
 ```
+Additionally, Alfresco Share Docker Image should be extended to use HTTPs protocol in Apache Tomcat when invoked from a proxy. This extension is defined in [share/Dockerfile](share/Dockerfile)
+
+```
+ARG SHARE_TAG
+FROM docker.io/alfresco/alfresco-share:${SHARE_TAG}
+
+RUN sed -i '/Connector port="8080"/a scheme="https" secure="true"' /usr/local/tomcat/conf/server.xml && \
+    sed -i "/Connector port=\"8080\"/a proxyName=\"localhost\" proxyPort=\"443\"" /usr/local/tomcat/conf/server.xml
+```
 
 Alfresco Repository and Alfresco Share environment variables in Docker Compose need to be modified to use TLS.
 
