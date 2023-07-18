@@ -225,21 +225,15 @@ Apply mTLS configuration to Transform Service in `docker-compose.yml` mounting k
     image: alfresco/alfresco-transform-core-aio:3.1.0
     environment:
       SERVER_SSL_ENABLED: "true"
+      SERVER_SSL_CLIENT_AUTH: "need"
+      SERVER_SSL_ENABLED_PROTOCOLS: "TLSv1.2"
       SERVER_SSL_KEY_PASSWORD: "kT9X6oe68t"
       SERVER_SSL_KEY_STORE: "file:/transform-core-aio.keystore"
       SERVER_SSL_KEY_STORE_PASSWORD: "kT9X6oe68t"
       SERVER_SSL_KEY_STORE_TYPE: "PKCS12"
-      SERVER_SSL_CLIENT_AUTH: "need"
       SERVER_SSL_TRUST_STORE: "file:/transform-core-aio.truststore"
       SERVER_SSL_TRUST_STORE_PASSWORD: "kT9X6oe68t"
       SERVER_SSL_TRUST_STORE_TYPE: "PKCS12"
-      CLIENT_SSL_KEY_STORE: "file:/transform-core-aio.keystore"
-      CLIENT_SSL_KEY_STORE_PASSWORD: "kT9X6oe68t"
-      CLIENT_SSL_KEY_STORE_TYPE: "PKCS12"
-      CLIENT_SSL_TRUST_STORE: "file:/transform-core-aio.truststore"
-      CLIENT_SSL_TRUST_STORE_PASSWORD: "kT9X6oe68t"
-      CLIENT_SSL_TRUST_STORE_TYPE: "PKCS12"
-      CLIENT_SSL_HOSTNAME_VERIFICATION_DISABLED: "false"      
     volumes:
       - ./keystore/tengineAIO/transform-core-aio.keystore:/transform-core-aio.keystore
       - ./keystore/tengineAIO/transform-core-aio.truststore:/transform-core-aio.truststore
