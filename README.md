@@ -482,7 +482,7 @@ RUN sed -i "s/\
 USER ${USERNAME}
 ```
 
-On the Alfresco Repository part, we have mounted keystore and trustore in previous steps. Add also values for mTLS connection to Search Services using Java environment variables.
+On the Alfresco Repository part, we have mounted keystore and trustore in previous steps. Add also values for mTLS connection to ActiveMQ using Java environment variables.
 
 ```
 alfresco:

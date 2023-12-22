@@ -111,9 +111,9 @@ services:
       -c ssl_ca_file=/var/lib/postgresql/ca.cert.pem
     volumes:
       - ./config/postgres/ssl_pg_hba.conf:/var/lib/postgresql/ssl_pg_hba.conf
-      - ./keystore/postgres/postgres.cer:/var/lib/postgresql/postgres.cer
-      - ./keystore/postgres/postgres.key:/var/lib/postgresql/postgres.key
-      - ./keystore/ca/ca.cert.pem:/var/lib/postgresql/ca.cert.pem
+      - ./keystore/postgres/postgres.cer:/var/lib/postgresql/postgres.cer:ro
+      - ./keystore/postgres/postgres.key:/var/lib/postgresql/postgres.key:ro
+      - ./keystore/ca/ca.cert.pem:/var/lib/postgresql/ca.cert.pem:ro
     ports:
       - "5432:5432"
 
@@ -142,14 +142,12 @@ services:
           -Dsolr.jetty.truststore.password=kT9X6oe68t
           -Dsolr.jetty.keystore.password=kT9X6oe68t
           -Dssl-keystore.password=kT9X6oe68t
-          -Dssl-keystore.aliases=ssl-alfresco-ca,ssl-repo-client
+          -Dssl-keystore.aliases=ssl-alfresco-ca,solr6
           -Dssl-keystore.ssl-alfresco-ca.password=kT9X6oe68t
-          -Dssl-keystore.ssl-repo-client.password=kT9X6oe68t
+          -Dssl-keystore.solr6.password=kT9X6oe68t
           -Dssl-truststore.password=kT9X6oe68t
-          -Dssl-truststore.aliases=ssl-alfresco-ca,ssl-repo,ssl-repo-client
-          -Dssl-truststore.ssl-alfresco-ca.password=kT9X6oe68t
-          -Dssl-truststore.ssl-repo.password=kT9X6oe68t
-          -Dssl-truststore.ssl-repo-client.password=kT9X6oe68t
+          -Dssl-truststore.aliases=alfresco-ca
+          -Dssl-truststore.alfresco-ca.password=kT9X6oe68t
       "
       SOLR_OPTS: "
           -Dsolr.ssl.checkPeerName=false
